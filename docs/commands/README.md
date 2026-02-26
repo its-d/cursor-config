@@ -21,7 +21,7 @@ This is separate from `.cursor/rules/*.mdc` files, which are persistent context 
 
 ```bash
 mkdir -p .cursor/commands
-cp /path/to/cursor-config/.cursor/commands/*.md .cursor/commands/
+cp /path/to/cursor-config/docs/commands/*.md .cursor/commands/
 ```
 
 This is what registers the actual slash commands. Without this step, nothing appears when you type `/`.
