@@ -21,7 +21,7 @@ This is separate from `.cursor/rules/*.mdc` files, which are persistent context 
 
 ```bash
 mkdir -p .cursor/commands
-cp /path/to/cursor-config/docs/commands/*.md .cursor/commands/
+cp /path/to/cursor-config/.cursor/commands/*.md .cursor/commands/
 ```
 
 This is what registers the actual slash commands. Without this step, nothing appears when you type `/`.
@@ -59,7 +59,7 @@ Type `/` in Composer and select from the list, or type the name directly:
 
 ---
 
-## Adding a New Workflow
+## Adding a New Command
 
 1. Create a new `.md` file in `.cursor/commands/` — the filename is the command name
 2. Write the prompt instructions as clear markdown (see the existing command files as templates)
@@ -69,7 +69,7 @@ Type `/` in Composer and select from the list, or type the name directly:
 
 ---
 
-## Workflow Index
+## Command Index
 
 | Command | Invoked as | Doc | Track |
 |---|---|---|---|
