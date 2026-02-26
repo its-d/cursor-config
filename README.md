@@ -2,6 +2,8 @@
 
 A set of Cursor commands designed to help developers work faster, onboard quicker, and ship better code using agentic AI. Each command has a single responsibility and produces a markdown file as its output so context is always persistent across sessions.
 
+Check out the NPM package [cursor-suite](https://www.npmjs.com/package/cursor-suite) for an easy installation that automatically sets up all commands and rules in your project.
+
 ---
 
 ## How It Works

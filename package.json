@@ -1,6 +1,6 @@
 {
   "name": "cursor-suite",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cursor commands and rules for onboarding, feature development, and repo understanding",
   "keywords": ["cursor", "ai", "cursor-rules", "cursor-commands", "agentic", "developer-tools"],
   "homepage": "https://github.com/its-d/cursor-config",
