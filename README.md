@@ -66,7 +66,7 @@ This registers the actual slash commands — without this, nothing appears when 
 
 ```bash
 mkdir -p .cursor/commands
-cp /path/to/cursor-config/.cursor/commands/*.md .cursor/commands/
+cp /path/to/cursor-config/docs/commands/*.md .cursor/commands/
 ```
 
 ### Step 3 — Copy rules into your project (recommended)
