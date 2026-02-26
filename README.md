@@ -55,6 +55,10 @@ Commands work without the rules, but the rules make them significantly more reli
 From the root of any project:
 
 ```bash
+# Install
+npm i cursor-suite
+
+# Initialize commands and rules
 npx cursor-suite init
 ```
 
