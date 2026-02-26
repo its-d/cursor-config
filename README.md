@@ -6,43 +6,45 @@ A set of Cursor commands designed to help developers work faster, onboard quicke
 
 ## How It Works
 
-Commands are organized into three tracks. Each track covers a different phase of the development lifecycle. You can use commands from different tracks in the same session — they are designed to complement each other.
+Commands are organized into three tracks. Each track covers a different phase of the development lifecycle.
 
 ```
 cursor-suite/
 ├── README.md
 ├── .cursor/
-│   └── rules/              ← copy .mdc files here to activate commands in your project
+│   ├── commands/           ← .md files = real slash commands (type / to invoke)
+│   │   ├── analyze.md
+│   │   ├── fix-todo.md
+│   │   ├── todo-security.md
+│   │   ├── todo-tests.md
+│   │   ├── todo-quality.md
+│   │   ├── todo-improvements.md
+│   │   ├── planner.md
+│   │   ├── executor.md
+│   │   ├── pr-prep.md
+│   │   ├── onboard.md
+│   │   └── explain.md
+│   └── rules/              ← .mdc files = behavior rules (reinforce each command)
+│       ├── analyze.mdc
+│       ├── fix-todo.mdc
+│       └── ...
 └── docs/
     ├── commands/
-    │   ├── README.md       ← how to set up and add commands
-    │   ├── analyze.md
-    │   ├── fix-todo.md
-    │   ├── todo-security.md
-    │   ├── todo-tests.md
-    │   ├── todo-quality.md
-    │   ├── todo-improvements.md
-    │   ├── planner.md
-    │   ├── executor.md
-    │   ├── pr-prep.md
-    │   ├── onboard.md
-    │   └── explain.md
+    │   ├── README.md       ← setup instructions and command index
+    │   └── *.md            ← detailed doc for each command
     ├── rules/
-    │   ├── README.md       ← how to set up, install, and write rules
-    │   ├── analyze.mdc
-    │   ├── fix-todo.mdc
-    │   ├── todo-security.mdc
-    │   ├── todo-tests.mdc
-    │   ├── todo-quality.mdc
-    │   ├── todo-improvements.mdc
-    │   ├── planner.mdc
-    │   ├── executor.mdc
-    │   ├── pr-prep.mdc
-    │   ├── onboard.mdc
-    │   └── explain.mdc
+    │   ├── README.md       ← how rules work and how to write them
+    │   └── *.mdc           ← rule source files
     └── mcp/
-        └── README.md       ← how to set up and add MCPs
+        └── README.md       ← MCP setup configs
 ```
+
+**Two files per command:**
+
+- `.cursor/commands/analyze.md` — the prompt that runs when you type `/analyze`
+- `.cursor/rules/analyze.mdc` — the behavior rules that enforce how it should act
+
+Commands work without the rules, but the rules make them significantly more reliable.
 
 ---
 
@@ -50,7 +52,7 @@ cursor-suite/
 
 ### Step 1 — Install Repomix
 
-Several commands (`/analyze`, `/onboard`) require Repomix to pack your codebase into AI-friendly context. Install it once globally:
+Several commands (`/analyze`, `/onboard`) require Repomix to pack your codebase into AI-friendly context:
 
 ```bash
 npm install -g repomix
@@ -58,34 +60,33 @@ npm install -g repomix
 brew install repomix
 ```
 
-Or skip install entirely and use npx:
+### Step 2 — Copy commands into your project
+
+This registers the actual slash commands — without this, nothing appears when you type `/`:
 
 ```bash
-npx repomix@latest
+mkdir -p .cursor/commands
+cp /path/to/cursor-config/.cursor/commands/*.md .cursor/commands/
 ```
 
-### Step 2 — Copy the rules into your project
+### Step 3 — Copy rules into your project (recommended)
 
-Commands only work when their `.mdc` rule files are in `.cursor/rules/` at the root of your project:
+Rules enforce correct behavior for each command:
 
 ```bash
 mkdir -p .cursor/rules
-cp /path/to/cursor-suite/docs/rules/*.mdc .cursor/rules/
+cp /path/to/cursor-config/docs/rules/*.mdc .cursor/rules/
 ```
 
-See [docs/rules/README.md](docs/rules/README.md) for detailed setup, how to install only specific commands, and how to write new rules.
-
-### Step 3 — Configure MCPs (optional but recommended)
-
-MCPs give commands direct access to GitHub, Jira, Slack, and other tools. See [docs/mcp/README.md](docs/mcp/README.md) for setup configs with step-by-step instructions for each.
-
-### Step 4 — Open Cursor in Agent mode and run a command
+### Step 4 — Open Cursor in Agent mode and type /
 
 ```
 /analyze          → full codebase audit
 /onboard          → developer onboarding guide
-/planner [task]   → implementation plan for a feature
+/planner          → implementation plan for a feature
 ```
+
+See [docs/commands/README.md](docs/commands/README.md) for full setup details.
 
 ---
 
@@ -93,16 +94,16 @@ MCPs give commands direct access to GitHub, Jira, Slack, and other tools. See [d
 
 ### 🔍 Track 1 — Audit & Fix
 
-Use these commands when you need to understand the current state of a codebase and systematically fix what's wrong. Start with `/analyze` then use `/fix-todo` or the scoped variants to execute fixes.
+Start with `/analyze` then use `/fix-todo` or the scoped variants to execute fixes.
 
 | Command | Output File | Description |
 |---|---|---|
 | `/analyze` | `repo-breakdown.md` | Full codebase audit covering tests, vulnerabilities, code quality, and improvements |
 | `/fix-todo` | updates `repo-breakdown.md` | Works through every item in the audit checklist in priority order |
-| `/todo-security` | updates `repo-breakdown.md` | Scoped fix pass — 🔴 security items only, CRITICAL → HIGH → MEDIUM → LOW |
-| `/todo-tests` | updates `repo-breakdown.md` | Scoped fix pass — 🧪 missing and partial tests only |
-| `/todo-quality` | updates `repo-breakdown.md` | Scoped fix pass — 🔧 code quality items only |
-| `/todo-improvements` | updates `repo-breakdown.md` | Scoped fix pass — 💡 improvement items only |
+| `/todo-security` | updates `repo-breakdown.md` | Scoped pass — 🔴 security items only, CRITICAL → HIGH → MEDIUM → LOW |
+| `/todo-tests` | updates `repo-breakdown.md` | Scoped pass — 🧪 missing and partial tests only |
+| `/todo-quality` | updates `repo-breakdown.md` | Scoped pass — 🔧 code quality items only |
+| `/todo-improvements` | updates `repo-breakdown.md` | Scoped pass — 💡 improvement items only |
 
 **Typical flow:**
 ```
@@ -113,12 +114,12 @@ Use these commands when you need to understand the current state of a codebase a
 
 ### 🏗️ Track 2 — Feature Development
 
-Use these commands when building new features. The Planner thinks and documents. The Executor implements. They communicate through shared markdown files so you can switch between them freely across sessions.
+The Planner thinks and documents. The Executor implements. They communicate through a shared markdown file.
 
 | Command | Output File | Description |
 |---|---|---|
-| `/planner` | `docs/implementation-plan/{task-slug}.md` | Breaks down a feature request into a step-by-step implementation plan |
-| `/executor` | updates `docs/implementation-plan/{task-slug}.md` | Executes one task at a time from the implementation plan |
+| `/planner` | `docs/implementation-plan/{task-slug}.md` | Breaks down a feature into a step-by-step implementation plan |
+| `/executor` | updates `docs/implementation-plan/{task-slug}.md` | Executes one task at a time from the plan |
 | `/pr-prep` | `pr-prep.md` | Generates a PR description summarizing what changed, why, and what to test |
 
 **Typical flow:**
@@ -129,8 +130,6 @@ Use these commands when building new features. The Planner thinks and documents.
 ---
 
 ### 🧭 Track 3 — Onboarding & Understanding
-
-Use these commands when joining a new codebase or trying to understand unfamiliar code.
 
 | Command | Output File | Description |
 |---|---|---|
@@ -148,7 +147,7 @@ Use these commands when joining a new codebase or trying to understand unfamilia
 
 **Every command produces a markdown file.** Context is never lost between sessions. An Executor can pick up where it left off by reading the implementation plan. A new developer can read `onboard.md` before their first standup.
 
-**Commands never do more than one thing.** `/analyze` only audits. `/fix-todo` only fixes. This makes it clear which command to reach for and easy to trust what it will and won't touch.
+**Workflows never do more than one thing.** `analyze` only audits. `fix-todo` only fixes. This makes it clear which command to reach for and easy to trust what it will and won't touch.
 
 **The Planner never writes code. The Executor never changes the plan.** This separation prevents the most common failure mode of agentic AI — executing before thinking, or overthinking instead of executing.
 
@@ -160,8 +159,8 @@ Use these commands when joining a new codebase or trying to understand unfamilia
 
 | Section | Description |
 |---|---|
-| [docs/commands/README.md](docs/commands/README.md) | How to set up commands, use them in Cursor, and add new ones |
-| [docs/rules/README.md](docs/rules/README.md) | How to install rule files, how rules work, and how to write new ones |
+| [docs/commands/README.md](docs/commands/README.md) | How to set up commands, how slash commands work, and how to add new ones |
+| [docs/rules/README.md](docs/rules/README.md) | How rules work, how to install them, and how to write new ones |
 | [docs/mcp/README.md](docs/mcp/README.md) | MCP setup configs with credentials guidance for every recommended server |
 
 ---
