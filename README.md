@@ -11,18 +11,80 @@ Commands are organized into three tracks. Each track covers a different phase of
 ```
 cursor-suite/
 ├── README.md
-├── docs/
-│   ├── analyze.md
-│   ├── fix-todo.md
-│   ├── todo-security.md
-│   ├── todo-tests.md
-│   ├── todo-quality.md
-│   ├── todo-improvements.md
-│   ├── planner.md
-│   ├── executor.md
-│   ├── pr-prep.md
-│   ├── onboard.md
-│   └── explain.md
+├── .cursor/
+│   └── rules/              ← copy .mdc files here to activate commands in your project
+└── docs/
+    ├── commands/
+    │   ├── README.md       ← how to set up and add commands
+    │   ├── analyze.md
+    │   ├── fix-todo.md
+    │   ├── todo-security.md
+    │   ├── todo-tests.md
+    │   ├── todo-quality.md
+    │   ├── todo-improvements.md
+    │   ├── planner.md
+    │   ├── executor.md
+    │   ├── pr-prep.md
+    │   ├── onboard.md
+    │   └── explain.md
+    ├── rules/
+    │   ├── README.md       ← how to set up, install, and write rules
+    │   ├── analyze.mdc
+    │   ├── fix-todo.mdc
+    │   ├── todo-security.mdc
+    │   ├── todo-tests.mdc
+    │   ├── todo-quality.mdc
+    │   ├── todo-improvements.mdc
+    │   ├── planner.mdc
+    │   ├── executor.mdc
+    │   ├── pr-prep.mdc
+    │   ├── onboard.mdc
+    │   └── explain.mdc
+    └── mcp/
+        └── README.md       ← how to set up and add MCPs
+```
+
+---
+
+## Getting Started
+
+### Step 1 — Install Repomix
+
+Several commands (`/analyze`, `/onboard`) require Repomix to pack your codebase into AI-friendly context. Install it once globally:
+
+```bash
+npm install -g repomix
+# or
+brew install repomix
+```
+
+Or skip install entirely and use npx:
+
+```bash
+npx repomix@latest
+```
+
+### Step 2 — Copy the rules into your project
+
+Commands only work when their `.mdc` rule files are in `.cursor/rules/` at the root of your project:
+
+```bash
+mkdir -p .cursor/rules
+cp /path/to/cursor-suite/docs/rules/*.mdc .cursor/rules/
+```
+
+See [docs/rules/README.md](docs/rules/README.md) for detailed setup, how to install only specific commands, and how to write new rules.
+
+### Step 3 — Configure MCPs (optional but recommended)
+
+MCPs give commands direct access to GitHub, Jira, Slack, and other tools. See [docs/mcp/README.md](docs/mcp/README.md) for setup configs with step-by-step instructions for each.
+
+### Step 4 — Open Cursor in Agent mode and run a command
+
+```
+/analyze          → full codebase audit
+/onboard          → developer onboarding guide
+/planner [task]   → implementation plan for a feature
 ```
 
 ---
@@ -61,14 +123,14 @@ Use these commands when building new features. The Planner thinks and documents.
 
 **Typical flow:**
 ```
-/planner [describe feature] → review plan → /executor [implement task 1] → verify → /executor [implement task 2] → /pr-prep
+/planner [describe feature] → review plan → /executor → verify → /executor → /pr-prep
 ```
 
 ---
 
 ### 🧭 Track 3 — Onboarding & Understanding
 
-Use these commands when joining a new codebase or trying to understand unfamiliar code. Designed for both new developers and experienced engineers picking up an existing project.
+Use these commands when joining a new codebase or trying to understand unfamiliar code.
 
 | Command | Output File | Description |
 |---|---|---|
@@ -84,88 +146,38 @@ Use these commands when joining a new codebase or trying to understand unfamilia
 
 ## Shared Conventions
 
-**Every command produces a markdown file.** This means context is never lost between sessions. An Executor can pick up where it left off by reading the implementation plan. A new developer can read `onboard.md` before their first standup.
+**Every command produces a markdown file.** Context is never lost between sessions. An Executor can pick up where it left off by reading the implementation plan. A new developer can read `onboard.md` before their first standup.
 
-**Commands never do more than one thing.** `/analyze` only audits. `/fix-todo` only fixes. This makes it easy to know which command to reach for and easy to trust what it will and won't touch.
+**Commands never do more than one thing.** `/analyze` only audits. `/fix-todo` only fixes. This makes it clear which command to reach for and easy to trust what it will and won't touch.
 
 **The Planner never writes code. The Executor never changes the plan.** This separation prevents the most common failure mode of agentic AI — executing before thinking, or overthinking instead of executing.
 
+**TDD is enforced for all new code.** The Executor writes failing tests before writing implementation. The test must fail first to prove it's real.
+
 ---
 
-## Getting Started
+## Docs
 
-### Step 1 — Install Repomix
-
-Several commands in this suite (`/analyze`, `/onboard`) require a repomix file — a single AI-friendly file containing your entire codebase. Install it once globally:
-
-```bash
-# Using npm
-npm install -g repomix
-
-# Using yarn
-yarn global add repomix
-
-# Using Homebrew (macOS/Linux)
-brew install repomix
-```
-
-Or run without installing using npx (always uses the latest version):
-
-```bash
-npx repomix@latest
-```
-
-### Step 2 — Generate a repomix file
-
-Navigate to your project root and run:
-
-```bash
-repomix
-```
-
-This generates `repomix-output.xml` in your current directory. For large codebases, use compression to reduce token count:
-
-```bash
-repomix --compress
-```
-
-To include only specific files:
-
-```bash
-repomix --include "src/**/*.ts,**/*.md"
-```
-
-### Step 3 — Run your first command
-
-```bash
-/analyze   # Full codebase audit
-/onboard   # Developer onboarding guide
-```
-
-Point the command at your `repomix-output.xml` when prompted.
-
-### Step 4 — Act on the output
-
-```bash
-/todo-security    # Fix critical issues first
-/todo-tests       # Add missing test coverage
-/fix-todo         # Work through everything
-```
+| Section | Description |
+|---|---|
+| [docs/commands/README.md](docs/commands/README.md) | How to set up commands, use them in Cursor, and add new ones |
+| [docs/rules/README.md](docs/rules/README.md) | How to install rule files, how rules work, and how to write new ones |
+| [docs/mcp/README.md](docs/mcp/README.md) | MCP setup configs with credentials guidance for every recommended server |
 
 ---
 
 ## Command Reference
 
-Full documentation for each command is in the `docs/` folder.
-
-- [/analyze](docs/analyze.md)
-- [/fix-todo](docs/fix-todo.md)
-- [/todo-security](docs/todo-security.md)
-- [/todo-tests](docs/todo-tests.md)
-- [/todo-quality](docs/todo-quality.md)
-- [/todo-improvements](docs/todo-improvements.md)
-- [/planner](docs/planner.md)
-- [/executor](docs/executor.md)
-- [/pr-prep](docs/pr-prep.md)
-- [/onboard](docs/onboard.md)
-- [/explain](docs/explain.md)
+| Command | Doc |
+|---|---|
+| `/analyze` | [docs/commands/analyze.md](docs/commands/analyze.md) |
+| `/fix-todo` | [docs/commands/fix-todo.md](docs/commands/fix-todo.md) |
+| `/todo-security` | [docs/commands/todo-security.md](docs/commands/todo-security.md) |
+| `/todo-tests` | [docs/commands/todo-tests.md](docs/commands/todo-tests.md) |
+| `/todo-quality` | [docs/commands/todo-quality.md](docs/commands/todo-quality.md) |
+| `/todo-improvements` | [docs/commands/todo-improvements.md](docs/commands/todo-improvements.md) |
+| `/planner` | [docs/commands/planner.md](docs/commands/planner.md) |
+| `/executor` | [docs/commands/executor.md](docs/commands/executor.md) |
+| `/pr-prep` | [docs/commands/pr-prep.md](docs/commands/pr-prep.md) |
+| `/onboard` | [docs/commands/onboard.md](docs/commands/onboard.md) |
+| `/explain` | [docs/commands/explain.md](docs/commands/explain.md) |
