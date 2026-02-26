@@ -50,9 +50,33 @@ Commands work without the rules, but the rules make them significantly more reli
 
 ## Getting Started
 
+### Option A — Install via npm (recommended)
+
+From the root of any project:
+
+```bash
+npx cursor-suite init
+```
+
+This automatically creates `.cursor/commands/` and `.cursor/rules/` and copies all files into them. Safe to re-run — existing files are never overwritten.
+
+### Option B — Install manually
+
+```bash
+mkdir -p .cursor/commands
+cp /path/to/cursor-config/docs/commands/*.md .cursor/commands/
+
+mkdir -p .cursor/rules
+cp /path/to/cursor-config/docs/rules/*.mdc .cursor/rules/
+```
+
+See [docs/commands/README.md](docs/commands/README.md) for full setup details.
+
+---
+
 ### Step 1 — Install Repomix
 
-Several commands (`/analyze`, `/onboard`) require Repomix to pack your codebase into AI-friendly context:
+The `/analyze` and `/onboard` commands require Repomix to pack your codebase into AI-friendly context:
 
 ```bash
 npm install -g repomix
@@ -60,33 +84,13 @@ npm install -g repomix
 brew install repomix
 ```
 
-### Step 2 — Copy commands into your project
-
-This registers the actual slash commands — without this, nothing appears when you type `/`:
-
-```bash
-mkdir -p .cursor/commands
-cp /path/to/cursor-config/docs/commands/*.md .cursor/commands/
-```
-
-### Step 3 — Copy rules into your project (recommended)
-
-Rules enforce correct behavior for each command:
-
-```bash
-mkdir -p .cursor/rules
-cp /path/to/cursor-config/docs/rules/*.mdc .cursor/rules/
-```
-
-### Step 4 — Open Cursor in Agent mode and type /
+### Step 2 — Open Cursor in Agent mode and type /
 
 ```
 /analyze          → full codebase audit
 /onboard          → developer onboarding guide
 /planner          → implementation plan for a feature
 ```
-
-See [docs/commands/README.md](docs/commands/README.md) for full setup details.
 
 ---
 

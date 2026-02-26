@@ -27,16 +27,16 @@ mkdir -p .cursor/rules
 Copy all rules at once:
 
 ```bash
-cp /path/to/cursor-suite/docs/rules/*.mdc .cursor/rules/
+cp /path/to/cursor-config/docs/rules/*.mdc .cursor/rules/
 ```
 
 Or copy only the rules for the commands you want:
 
 ```bash
 # Example: just the feature development track
-cp /path/to/cursor-suite/docs/rules/planner.mdc .cursor/rules/
-cp /path/to/cursor-suite/docs/rules/executor.mdc .cursor/rules/
-cp /path/to/cursor-suite/docs/rules/pr-prep.mdc .cursor/rules/
+cp /path/to/cursor-config/docs/rules/planner.mdc .cursor/rules/
+cp /path/to/cursor-config/docs/rules/executor.mdc .cursor/rules/
+cp /path/to/cursor-config/docs/rules/pr-prep.mdc .cursor/rules/
 ```
 
 ### Step 3 — Verify Cursor sees the rules
